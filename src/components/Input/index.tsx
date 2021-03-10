@@ -78,7 +78,7 @@ const Input: React.RefForwardingComponent<InputRef, InputProps> = (
         color={isFocused || isFilled ? '#58769e' : '#9c948d'}
       />
       <TextInput
-        secureTextEntry={!eye}
+        secureTextEntry={icon === 'lock' ? !eye : false}
         ref={inputElementRef}
         keyboardAppearance="dark"
         placeholderTextColor="#9c948d"
