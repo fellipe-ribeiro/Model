@@ -1,4 +1,4 @@
-import React, {useRef, useCallback} from 'react';
+import React, { useRef, useCallback } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -7,10 +7,10 @@ import {
   Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
-import {Form} from '@unform/mobile';
-import {FormHandles} from '@unform/core';
+import { Form } from '@unform/mobile';
+import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 
 import getValidationErrors from '../../utils/getValidationErrors';
@@ -84,12 +84,14 @@ const SignUp: React.FC = () => {
   return (
     <>
       <KeyboardAvoidingView
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        enabled>
+        enabled
+      >
         <ScrollView
           keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{flex: 1}}>
+          contentContainerStyle={{ flex: 1 }}
+        >
           <Container>
             <ContainerData>
               <ContainerLogo>
@@ -137,7 +139,8 @@ const SignUp: React.FC = () => {
                 <Button
                   onPress={() => {
                     formRef.current?.submitForm();
-                  }}>
+                  }}
+                >
                   Cadastrar
                 </Button>
               </Form>

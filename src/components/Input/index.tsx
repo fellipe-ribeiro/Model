@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import React, {
   useState,
   useCallback,
@@ -6,10 +7,10 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from 'react';
-import {TextInputProps} from 'react-native';
-import {useField} from '@unform/core';
+import { TextInputProps } from 'react-native';
+import { useField } from '@unform/core';
 
-import {Container, TextInput, Icon, EyeIconcontainer} from './styles';
+import { Container, TextInput, Icon, EyeIconcontainer } from './styles';
 
 interface InputProps extends TextInputProps {
   name: string;
@@ -25,13 +26,13 @@ interface InputRef {
 }
 
 const Input: React.RefForwardingComponent<InputRef, InputProps> = (
-  {name, icon, ...rest},
+  { name, icon, ...rest },
   ref,
 ) => {
   const inputElementRef = useRef<any>(null);
 
-  const {registerField, defaultValue = '', fieldName, error} = useField(name);
-  const inputValueRef = useRef<InputValueReference>({value: defaultValue});
+  const { registerField, defaultValue = '', fieldName, error } = useField(name);
+  const inputValueRef = useRef<InputValueReference>({ value: defaultValue });
 
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
@@ -61,7 +62,7 @@ const Input: React.RefForwardingComponent<InputRef, InputProps> = (
       path: 'value',
       setValue(ref: any, value) {
         inputValueRef.current.value = value;
-        inputElementRef.current.setNativeProps({text: value});
+        inputElementRef.current.setNativeProps({ text: value });
       },
       clearValue() {
         inputValueRef.current.value = '';
@@ -85,7 +86,7 @@ const Input: React.RefForwardingComponent<InputRef, InputProps> = (
         defaultValue={defaultValue}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
-        onChangeText={(value) => {
+        onChangeText={value => {
           inputValueRef.current.value = value;
         }}
         {...rest}
@@ -94,7 +95,8 @@ const Input: React.RefForwardingComponent<InputRef, InputProps> = (
         <EyeIconcontainer
           onPress={() => {
             setEye(!eye);
-          }}>
+          }}
+        >
           <Icon
             name={eye ? 'eye' : 'eye-off'}
             size={20}

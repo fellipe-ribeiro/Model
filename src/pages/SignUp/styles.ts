@@ -1,8 +1,8 @@
 import styled from 'styled-components/native';
-import {getBottomSpace} from 'react-native-iphone-x-helper';
-import {Dimensions} from 'react-native';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
+import { Dimensions } from 'react-native';
 
-const {height, width} = Dimensions.get('screen');
+const { height, width } = Dimensions.get('screen');
 
 export const Container = styled.View`
   flex: 1;

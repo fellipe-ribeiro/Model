@@ -1,5 +1,5 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
@@ -11,8 +11,9 @@ const AuthRoutes: React.FC = () => (
     initialRouteName="Login"
     screenOptions={{
       headerShown: false,
-      cardStyle: {backgroundColor: '#DED7CD'},
-    }}>
+      cardStyle: { backgroundColor: '#DED7CD' },
+    }}
+  >
     <Auth.Screen name="Login" component={Login} />
     <Auth.Screen name="SignUp" component={SignUp} />
   </Auth.Navigator>
