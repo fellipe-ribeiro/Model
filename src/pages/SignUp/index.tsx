@@ -1,10 +1,12 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState, useEffect } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   TextInput,
   Alert,
+  View,
+  Keyboard,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
@@ -12,6 +14,8 @@ import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
+
+import api from '../../services/api';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
@@ -35,51 +39,76 @@ interface SignUpFormData {
 }
 
 const SignUp: React.FC = () => {
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
+
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
 
   const emailInputRef = useRef<TextInput>(null);
   const passwordInputRef = useRef<TextInput>(null);
 
-  const handleSignUp = useCallback(async (data: SignUpFormData) => {
-    try {
-      formRef.current?.setErrors({});
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true); // or some other action
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false); // or some other action
+      },
+    );
 
-      const schema = Yup.object().shape({
-        name: Yup.string().required('Nome obrigatório'),
-        email: Yup.string()
-          .required('E-mail obrigatório')
-          .email('Digite um e-mail válido'),
-        password: Yup.string().min(6, 'No mínimo 6 dígitos'),
-      });
-
-      await schema.validate(data, {
-        abortEarly: false,
-      });
-
-      // await api.post('/users', data);
-
-      // Alert.alert(
-      //    'Cadastro realizado com sucesso!',
-      //   'Você já pode fazer login na aplicação.',
-      //   );
-
-      //  navigation.goBack();
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err);
-
-        formRef.current?.setErrors(errors);
-
-        return;
-      }
-
-      Alert.alert(
-        'Erro no cadastro',
-        'Ocorreu um erro ao fazer cadastro, tente novamente.',
-      );
-    }
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
   }, []);
+
+  const handleSignUp = useCallback(
+    async (data: SignUpFormData) => {
+      try {
+        formRef.current?.setErrors({});
+
+        const schema = Yup.object().shape({
+          name: Yup.string().required('Nome obrigatório'),
+          email: Yup.string()
+            .required('E-mail obrigatório')
+            .email('Digite um e-mail válido'),
+          password: Yup.string().min(6, 'No mínimo 6 dígitos'),
+        });
+
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+
+        await api.post('/users', data);
+
+        Alert.alert(
+          'Cadastro realizado com sucesso!',
+          'Você já pode realizar o login na aplicação.',
+        );
+
+        navigation.goBack();
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
+
+          formRef.current?.setErrors(errors);
+
+          return;
+        }
+
+        Alert.alert(
+          'Erro no cadastro',
+          'Ocorreu um erro ao fazer cadastro, tente novamente.',
+        );
+      }
+    },
+    [navigation],
+  );
 
   return (
     <>
@@ -144,14 +173,18 @@ const SignUp: React.FC = () => {
                   Cadastrar
                 </Button>
               </Form>
+              {keyboardVisible && <View style={{ height: 20 }} />}
             </ContainerData>
           </Container>
         </ScrollView>
       </KeyboardAvoidingView>
-      <BackToLogin onPress={() => navigation.goBack()}>
-        <Icon name="arrow-left" size={20} color="#4f4841" />
-        <BackToLoginText>Voltar para o Login</BackToLoginText>
-      </BackToLogin>
+
+      {!keyboardVisible && (
+        <BackToLogin onPress={() => navigation.goBack()}>
+          <Icon name="arrow-left" size={20} color="#4f4841" />
+          <BackToLoginText>Voltar para o Login</BackToLoginText>
+        </BackToLogin>
+      )}
     </>
   );
 };
