@@ -73,21 +73,9 @@ export const HeaderTitleUser = styled.Text`
   align-self: center;
 `;
 
-export const AvatarContainer = styled.View`
-  align-items: center;
-  justify-content: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 26px;
-  align-items: center;
-  justify-content: center;
-
-  background: #58769e;
-`;
+export const AvatarContainer = styled.View``;
 
 export const AvatarImage = styled.Image`
-  align-items: center;
-  justify-content: center;
   width: 52px;
   height: 52px;
   border-radius: 26px;

@@ -56,7 +56,7 @@ const Header: React.FC = () => {
               </IconSingoutContainer>
               <HeaderDescription>{routeParams.titleName}</HeaderDescription>
               <AvatarContainer>
-                <AvatarImage source={{ uri: 'efe' }} />
+                <AvatarImage source={{ uri: user.avatar_url }} />
               </AvatarContainer>
             </HeaderContainerCanGoBack>
           </>
@@ -68,7 +68,7 @@ const Header: React.FC = () => {
               <HeaderTitleUser>{user.name}</HeaderTitleUser>
             </HeaderTitleContainer>
             <AvatarContainer>
-              <AvatarImage source={{ uri: 'efe' }} />
+              <AvatarImage source={{ uri: user.avatar_url }} />
             </AvatarContainer>
           </>
         )}

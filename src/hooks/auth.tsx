@@ -12,7 +12,7 @@ interface User {
   id: string;
   name: string;
   email: string;
-  // avatar_url: string;
+  avatar_url: string;
 }
 
 interface AuthState {
@@ -76,13 +76,6 @@ const AuthProvider: React.FC = ({ children }) => {
     setData({ token, user });
   }, []);
 
-  const handleRergisterDeviceToken = useCallback(
-    async ({ user_id, device_token }) => {
-      const response = await api.post('devices', user_id, device_token);
-    },
-    [],
-  );
-
   const signOut = useCallback(async () => {
     await AsyncStorage.multiRemove(['@Model:user', '@Model:token']);
 
@@ -109,7 +102,6 @@ const AuthProvider: React.FC = ({ children }) => {
         signIn,
         signOut,
         updateUser,
-        handleRergisterDeviceToken,
       }}
     >
       {children}
