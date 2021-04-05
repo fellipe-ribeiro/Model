@@ -52,7 +52,7 @@ const Header: React.FC = () => {
                   goBack();
                 }}
               >
-                <IconSingout name="arrow-left" size={42} color="#58769e95" />
+                <IconSingout name="arrow-left" size={42} color="#746b6295" />
               </IconSingoutContainer>
               <HeaderDescription>{routeParams.titleName}</HeaderDescription>
               <AvatarContainer>

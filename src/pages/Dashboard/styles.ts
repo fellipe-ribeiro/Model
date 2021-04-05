@@ -35,9 +35,9 @@ export const AddOrderContainer = styled.View`
 `;
 
 export const AddOrderTitle = styled.Text`
-  font-family: 'OpenSans-Bold';
+  font-family: 'OpenSans-SemiBold';
   font-size: 16px;
-  color: #58769e;
+  color: #4f4841;
 
   margin-right: auto;
 `;
@@ -59,9 +59,9 @@ export const AddOrderButton = styled.TouchableOpacity`
 export const AddOrderIcon = styled(FontAwesomeIcon)``;
 
 export const StageTitle = styled.Text`
-  font-family: 'OpenSans-Bold';
-  font-size: 18px;
-  color: #58769e;
+  font-family: 'OpenSans-SemiBold';
+  font-size: 16px;
+  color: #4f4841;
   text-align: left;
 
   margin-right: auto;

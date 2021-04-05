@@ -43,7 +43,7 @@ export const IconSingout = styled(FeatherIcon)``;
 export const HeaderDescription = styled.Text`
   font-family: 'OpenSans-Bold';
   font-size: 20px;
-  color: #58769e;
+  color: #4f4841;
   text-align: center;
   align-self: center;
 
