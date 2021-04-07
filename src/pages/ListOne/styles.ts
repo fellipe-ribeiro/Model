@@ -32,7 +32,7 @@ export const OrderContainer = styled.View`
   elevation: 8;
   border-radius: 30px;
   width: 100%;
-  height: ${height * 0.465}px;
+  height: ${height * 0.565}px;
   padding: 16px;
 `;
 
@@ -66,19 +66,16 @@ export const OrderDivisor = styled.View`
 
 export const ButtonsContainer = styled.View`
   flex-direction: row;
-
-  width: 85%;
+  width: 90%;
+  margin-top: 2px;
 
   align-items: center;
-
-  margin-top: 16px;
-  margin-bottom: 16px;
 `;
 
 export const ButtonDeleteOrder = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
-
+  margin-left: 5%;
   margin-right: auto;
 `;
 
@@ -99,6 +96,6 @@ export const Icon = styled(FontAwesomeIcon)``;
 export const IconText = styled.Text`
   font-family: 'OpenSans-Regular';
   font-size: 13px;
-  color: #4f4841;
+  color: #ffffff;
   text-align: left;
 `;

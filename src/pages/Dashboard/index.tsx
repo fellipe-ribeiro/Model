@@ -97,7 +97,13 @@ const Dashboard: React.FC = () => {
           <ContainerData>
             <AddOrderContainer>
               <AddOrderTitle>Adicionar um novo pedido:</AddOrderTitle>
-              <AddOrderButton onPress={() => {}}>
+              <AddOrderButton
+                onPress={() => {
+                  navigation.navigate('AddOrder', {
+                    titleName: 'Novo Pedido',
+                  });
+                }}
+              >
                 <AddOrderIcon name="plus" size={26} color="#ffffff" />
               </AddOrderButton>
             </AddOrderContainer>

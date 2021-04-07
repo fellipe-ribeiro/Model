@@ -172,22 +172,23 @@ const ListOne: React.FC = () => {
                   {order.changed === 'T' ? 'Sim' : 'Não'}
                 </OrderTextContent>
               </OrderContainerInfo>
+              <OrderDivisor />
+              <ButtonsContainer>
+                <ButtonDeleteOrder>
+                  <Icon name="trash" size={42} color="#ffffff" />
+                  <IconText>Deletar</IconText>
+                </ButtonDeleteOrder>
+                <ButtonChangeOrder>
+                  <Icon name="edit" size={42} color="#ffffff" />
+                  <IconText>Editar</IconText>
+                </ButtonChangeOrder>
+                <ButtonChangeOrder>
+                  <Icon name="forward" size={42} color="#ffffff" />
+                  <IconText>Mover</IconText>
+                </ButtonChangeOrder>
+              </ButtonsContainer>
             </OrderContainer>
           </ContainerData>
-          <ButtonsContainer>
-            <ButtonDeleteOrder>
-              <Icon name="trash" size={42} color="#58769e" />
-              <IconText>Deletar</IconText>
-            </ButtonDeleteOrder>
-            <ButtonChangeOrder>
-              <Icon name="edit" size={42} color="#58769e" />
-              <IconText>Editar</IconText>
-            </ButtonChangeOrder>
-            <ButtonChangeOrder>
-              <Icon name="forward" size={42} color="#58769e" />
-              <IconText>Mover</IconText>
-            </ButtonChangeOrder>
-          </ButtonsContainer>
         </Container>
       </ScrollView>
 
