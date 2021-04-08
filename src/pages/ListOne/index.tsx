@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ScrollView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { format } from 'date-fns';
 
+import { string } from 'yup/lib/locale';
 import Header from '../../components/Header';
 import BottomNavigation from '../../components/BottomNavigation';
 
@@ -27,6 +28,7 @@ import api from '../../services/api';
 
 interface RouteParams {
   orderID: string;
+  userID: string;
 }
 
 export interface Order {
@@ -59,19 +61,30 @@ export interface Order {
   changed: string;
 }
 
+export interface User {
+  id: string;
+  name: string;
+}
+
 const ListOne: React.FC = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const routeParams = route.params as RouteParams;
 
   const [order, setOrder] = useState<Order>({} as Order);
+  const [user, setUser] = useState<User>({} as User);
 
   useEffect(() => {
     api.get(`orders/byid?id=${routeParams.orderID}`).then(response => {
       const orderData = response.data;
       setOrder(orderData);
     });
-  }, [routeParams.orderID]);
+
+    api.get(`users/byid?id=${routeParams.userID}`).then(response => {
+      const user = response.data;
+      setUser(user);
+    });
+  }, [routeParams.orderID, routeParams.userID]);
 
   return (
     <>
@@ -91,6 +104,10 @@ const ListOne: React.FC = () => {
               <OrderContainerInfo>
                 <OrderText>Modelo: </OrderText>
                 <OrderTextContent>{order?.modelName}</OrderTextContent>
+              </OrderContainerInfo>
+              <OrderContainerInfo>
+                <OrderText>Criado por: </OrderText>
+                <OrderTextContent>{user.name}</OrderTextContent>
               </OrderContainerInfo>
               <OrderDivisor />
               <OrderContainerInfo>
@@ -182,10 +199,10 @@ const ListOne: React.FC = () => {
                   <Icon name="edit" size={42} color="#ffffff" />
                   <IconText>Editar</IconText>
                 </ButtonChangeOrder>
-                <ButtonChangeOrder>
+                <ButtonMoveOrder>
                   <Icon name="forward" size={42} color="#ffffff" />
                   <IconText>Mover</IconText>
-                </ButtonChangeOrder>
+                </ButtonMoveOrder>
               </ButtonsContainer>
             </OrderContainer>
           </ContainerData>

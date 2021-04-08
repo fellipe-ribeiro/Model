@@ -1,5 +1,9 @@
 import styled, { css } from 'styled-components/native';
-import FeatherIcon from 'react-native-vector-icons/Feather';
+import { Dimensions } from 'react-native';
+
+import { TextInputMask } from 'react-native-masked-text';
+
+const { height, width } = Dimensions.get('screen');
 
 interface ContainerProps {
   isFocused: boolean;
@@ -8,10 +12,9 @@ interface ContainerProps {
 
 export const Container = styled.View<ContainerProps>`
   width: 100%;
-  height: 60px;
+  height: ${height * 0.06}px;
   background: #e3dfd9;
-  border-radius: 30px;
-  margin-bottom: 8px;
+  border-radius: 20px;
   border-width: 2px;
   border-color: #e3dfd9;
 
@@ -31,18 +34,11 @@ export const Container = styled.View<ContainerProps>`
     `}
 `;
 
-export const TextInput = styled.TextInput`
+export const TextInputMaskedDate = styled(TextInputMask)`
   flex: 1;
   color: black;
-  font-size: 16px;
+  font-size: 14px;
   font-family: 'OpenSans-Regular';
-`;
 
-export const Icon = styled(FeatherIcon)`
-  margin-right: 12px;
-  margin-left: 18px;
-`;
-
-export const EyeIconcontainer = styled.TouchableOpacity`
-  margin-right: 5px;
+  padding-left: ${width * 0.04}px;
 `;

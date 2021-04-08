@@ -24,7 +24,7 @@ export const TitleText = styled.Text`
   text-align: left;
 
   margin-top: 5%;
-  margin-bottom: 5%;
+  margin-bottom: 3%;
 `;
 
 export const OrderContainer = styled.View`
@@ -32,7 +32,7 @@ export const OrderContainer = styled.View`
   elevation: 8;
   border-radius: 30px;
   width: 100%;
-  height: ${height * 0.565}px;
+  height: ${height * 0.59}px;
   padding: 16px;
 `;
 
@@ -81,7 +81,7 @@ export const ButtonDeleteOrder = styled.TouchableOpacity`
 
 export const ButtonChangeOrder = styled.TouchableOpacity`
   justify-content: center;
-  margin-left: ${width * 0.24}px;
+  margin-left: auto;
   margin-right: auto;
 `;
 

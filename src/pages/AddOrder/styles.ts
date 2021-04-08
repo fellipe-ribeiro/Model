@@ -1,7 +1,12 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import { Dimensions } from 'react-native';
 
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { baseProps } from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlers';
+
+interface DivisorProps {
+  space: number;
+}
 
 const { height, width } = Dimensions.get('screen');
 

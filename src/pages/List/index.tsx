@@ -28,6 +28,7 @@ import api from '../../services/api';
 
 export interface Order {
   id: string;
+  user_id: string;
   client: string;
   modelName: string;
   type: string;
@@ -207,6 +208,7 @@ const Dashboard: React.FC = () => {
                   navigation.navigate('ListOne', {
                     titleName: 'Pedido',
                     orderID: order.id,
+                    userID: order.user_id,
                   });
                 }}
               >

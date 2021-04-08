@@ -34,7 +34,7 @@ export const Container = styled.View<ContainerProps>`
 
 export const TextInput = styled.TextInput`
   flex: 1;
-  color: #4f4841;
+  color: black;
   font-size: 14px;
   font-family: 'OpenSans-Regular';
 
