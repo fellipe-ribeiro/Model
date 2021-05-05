@@ -28,11 +28,11 @@ export const TitleText = styled.Text`
 `;
 
 export const OrderContainer = styled.View`
-  background: #58769e;
+  background: #ffffff;
   elevation: 8;
-  border-radius: 30px;
+  border-radius: 10px;
   width: 100%;
-  height: ${height * 0.59}px;
+  height: ${height * 0.57}px;
   padding: 16px;
 `;
 
@@ -44,21 +44,21 @@ export const OrderContainerInfo = styled.View`
 export const OrderText = styled.Text`
   font-family: 'OpenSans-Bold';
   font-size: 15px;
-  color: #ffffff;
+  color: #4f4841;
   text-align: left;
 `;
 
 export const OrderTextContent = styled.Text`
   font-family: 'OpenSans-Regular';
   font-size: 15px;
-  color: #ffffff;
+  color: #4f4841;
   text-align: left;
 `;
 
 export const OrderDivisor = styled.View`
-  background: #ffffff;
+  background: #4f4841;
   width: 100%;
-  height: 2px;
+  height: 1.3px;
 
   margin-top: 8px;
   margin-bottom: 8px;
@@ -96,6 +96,6 @@ export const Icon = styled(FontAwesomeIcon)``;
 export const IconText = styled.Text`
   font-family: 'OpenSans-Regular';
   font-size: 13px;
-  color: #ffffff;
+  color: #4f4841;
   text-align: left;
 `;

@@ -31,6 +31,7 @@ import InputAddOrder from './InputAddOrder';
 import InputMaskAddOrder from './InputMaskAddOrder';
 import Button from '../../components/Button';
 import Divisor from '../../components/Divisor';
+import ModalAddOrder from './Modal';
 
 import {
   Container,
@@ -102,10 +103,10 @@ const AddOrder: React.FC = () => {
   const [typeValue, setTypeValue] = useState('Produção');
   const [sectorValue, setSectorValue] = useState('Modelagem');
   const [keyboardVisible, setKeyboardVisible] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const maskedInputRef = useRef<any>({});
 
-  const clientInputRef = useRef<TextInput>(null);
   const modelInputRef = useRef<TextInput>(null);
   const rawMaterialInputRef = useRef<TextInput>(null);
 
@@ -178,13 +179,10 @@ const AddOrder: React.FC = () => {
         readyDate,
         deliveredDate,
       };
-      console.log(dataOrder.client);
       await api.post('/orders', dataOrder).then(
         response => {
           console.log(response.data);
-          navigation.replace('AddOrder', {
-            titleName: 'Novo Pedido',
-          });
+          setShowModal(true);
         },
         error => {
           console.log(error.response.data);
@@ -349,8 +347,14 @@ const AddOrder: React.FC = () => {
     [FormatStringData, handlePostAddOrder, sectorValue, typeValue],
   );
 
+  const toggleModal = useCallback(() => {
+    setShowModal(value => !showModal);
+  }, [showModal]);
+
   return (
     <>
+      <ModalAddOrder visible={showModal} onDismiss={toggleModal} />
+
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}

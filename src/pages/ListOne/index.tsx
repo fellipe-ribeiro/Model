@@ -192,15 +192,15 @@ const ListOne: React.FC = () => {
               <OrderDivisor />
               <ButtonsContainer>
                 <ButtonDeleteOrder>
-                  <Icon name="trash" size={42} color="#ffffff" />
+                  <Icon name="trash" size={28} color="#4f4841" />
                   <IconText>Deletar</IconText>
                 </ButtonDeleteOrder>
                 <ButtonChangeOrder>
-                  <Icon name="edit" size={42} color="#ffffff" />
+                  <Icon name="edit" size={28} color="#4f4841" />
                   <IconText>Editar</IconText>
                 </ButtonChangeOrder>
                 <ButtonMoveOrder>
-                  <Icon name="forward" size={42} color="#ffffff" />
+                  <Icon name="forward" size={28} color="#4f4841" />
                   <IconText>Mover</IconText>
                 </ButtonMoveOrder>
               </ButtonsContainer>
