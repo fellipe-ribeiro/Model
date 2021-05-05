@@ -7,13 +7,20 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from 'react';
-import { TextInputProps } from 'react-native';
 import { useField } from '@unform/core';
+
+import {
+  TextInputMaskProps,
+  TextInputMaskTypeProp,
+  TextInputMaskOptionProp,
+} from 'react-native-masked-text';
 
 import { Container, TextInputMaskedDate } from './styles';
 
-interface InputProps extends TextInputProps {
+interface InputProps extends TextInputMaskProps {
   name: string;
+  type: TextInputMaskTypeProp;
+  options: TextInputMaskOptionProp;
 }
 
 interface InputValueReference {
@@ -24,10 +31,10 @@ interface InputRef {
   focus(): void;
 }
 
-const InputMaskAddOrder: React.RefForwardingComponent<InputRef, InputProps> = (
-  { name, ...rest },
-  ref,
-) => {
+const InputMaskAddOrder: React.ForwardRefRenderFunction<
+  InputRef,
+  InputProps
+> = ({ name, refInput, type, options, ...rest }, ref) => {
   const inputElementRef = useRef<any>(null);
 
   const { registerField, defaultValue = '', fieldName, error } = useField(name);
@@ -70,12 +77,11 @@ const InputMaskAddOrder: React.RefForwardingComponent<InputRef, InputProps> = (
   return (
     <Container isFocused={isFocused} isErrored={!!error}>
       <TextInputMaskedDate
-        type="datetime"
-        options={{
-          format: 'DD/MM/YYYY',
-        }}
+        type={type}
+        options={options}
         keyboardType="numeric"
         autoCorrect={false}
+        refInput={refInput}
         ref={inputElementRef}
         keyboardAppearance="dark"
         placeholderTextColor="#9c948d"
@@ -84,8 +90,8 @@ const InputMaskAddOrder: React.RefForwardingComponent<InputRef, InputProps> = (
         onBlur={handleInputBlur}
         value={data}
         onChangeText={value => {
-          setData(value);
           inputValueRef.current.value = value;
+          setData(value);
         }}
         {...rest}
       />
