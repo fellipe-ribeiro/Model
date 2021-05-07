@@ -1,7 +1,11 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import { Dimensions } from 'react-native';
 
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+
+interface IconTextProps {
+  disabled: boolean;
+}
 
 const { height, width } = Dimensions.get('screen');
 
@@ -93,9 +97,15 @@ export const ButtonMoveOrder = styled.TouchableOpacity`
 
 export const Icon = styled(FontAwesomeIcon)``;
 
-export const IconText = styled.Text`
+export const IconText = styled.Text<IconTextProps>`
   font-family: 'OpenSans-Regular';
   font-size: 13px;
   color: #4f4841;
   text-align: left;
+
+  ${props =>
+    props.disabled &&
+    css`
+      color: #c0c0c0;
+    `}
 `;

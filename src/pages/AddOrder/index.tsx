@@ -179,19 +179,27 @@ const AddOrder: React.FC = () => {
         readyDate,
         deliveredDate,
       };
-      await api.post('/orders', dataOrder).then(
-        response => {
-          console.log(response.data);
-          setShowModal(true);
-        },
-        error => {
-          console.log(error.response.data);
-          Alert.alert(
-            'Erro na adição de pedido',
-            'Ocorreu um erro ao realizar a adição do pedido, cheque as informações.',
-          );
-        },
-      );
+      try {
+        await api.post('/orders', dataOrder).then(
+          response => {
+            console.log(response.data);
+            setShowModal(true);
+          },
+          error => {
+            console.log(error.response.data);
+            Alert.alert(
+              'Erro na adição de pedido',
+              'Ocorreu um erro ao realizar a adição do pedido, cheque as informações.',
+            );
+          },
+        );
+      } catch (err) {
+        console.log(err);
+        Alert.alert(
+          'Erro na adição de pedido',
+          'Ocorreu um erro ao realizar a adição do pedido, cheque as informações.',
+        );
+      }
     },
     [],
   );

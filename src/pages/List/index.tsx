@@ -54,26 +54,29 @@ const Dashboard: React.FC = () => {
   const flatlistRef = useRef<FlatList<Order>>(null);
 
   useEffect(() => {
-    if (routeParams.titleName === 'Todos') {
-      api.get('orders').then(response => {
-        const ordersSorted = response.data.sort((a: Order, b: Order) => {
-          return +new Date(b.departureDate) - +new Date(a.departureDate);
-        });
-        setOrders([...ordersSorted]);
-        setScrollSortDate(false);
-      });
-    } else {
-      api
-        .get(`orders/sector?sectorName=${routeParams.titleName}`)
-        .then(response => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      if (routeParams.titleName === 'Todos') {
+        api.get('orders').then(response => {
           const ordersSorted = response.data.sort((a: Order, b: Order) => {
             return +new Date(b.departureDate) - +new Date(a.departureDate);
           });
           setOrders([...ordersSorted]);
           setScrollSortDate(false);
         });
-    }
-  }, [routeParams.titleName]);
+      } else {
+        api
+          .get(`orders/sector?sectorName=${routeParams.titleName}`)
+          .then(response => {
+            const ordersSorted = response.data.sort((a: Order, b: Order) => {
+              return +new Date(b.departureDate) - +new Date(a.departureDate);
+            });
+            setOrders([...ordersSorted]);
+            setScrollSortDate(false);
+          });
+      }
+    });
+    return unsubscribe;
+  }, [navigation, routeParams.titleName]);
 
   const handleSortByClient = useCallback(() => {
     setSelectedClient(true);

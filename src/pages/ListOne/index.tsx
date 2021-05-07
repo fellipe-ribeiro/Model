@@ -1,12 +1,18 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { ScrollView } from 'react-native';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useCallback, useEffect, useState } from 'react';
+import { ScrollView, Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import { format } from 'date-fns';
 
-import { string } from 'yup/lib/locale';
+import { useAuth } from '../../hooks/auth';
+
 import Header from '../../components/Header';
 import BottomNavigation from '../../components/BottomNavigation';
+import ModalDelete from './ModalDelete';
+
+import api from '../../services/api';
 
 import {
   Container,
@@ -24,11 +30,11 @@ import {
   Icon,
   IconText,
 } from './styles';
-import api from '../../services/api';
 
 interface RouteParams {
   orderID: string;
   userID: string;
+  titleName: string;
 }
 
 export interface Order {
@@ -67,27 +73,106 @@ export interface User {
 }
 
 const ListOne: React.FC = () => {
-  const navigation = useNavigation();
+  const { user } = useAuth();
+
+  const navigation = useNavigation<StackNavigationProp<any>>();
   const route = useRoute();
   const routeParams = route.params as RouteParams;
 
   const [order, setOrder] = useState<Order>({} as Order);
-  const [user, setUser] = useState<User>({} as User);
+  const [userOrder, setUserOrder] = useState<User>({} as User);
+
+  const [deleteDisabled, setDeleteDisabled] = useState(false);
+  const [editDisabled, setEditDisabled] = useState(false);
+  const [moveDisabled, setMoveDisabled] = useState(false);
+  const [showModalDelete, setShowModalDelete] = useState(false);
 
   useEffect(() => {
     api.get(`orders/byid?id=${routeParams.orderID}`).then(response => {
       const orderData = response.data;
       setOrder(orderData);
+      if (
+        orderData.changed === 'T' ||
+        orderData.user_id !== user.id ||
+        orderData.sector === 'Entregue'
+      ) {
+        setDeleteDisabled(true);
+      }
+      if (orderData.user_id !== user.id || orderData.sector === 'Entregue') {
+        setEditDisabled(true);
+      }
+      if (orderData.sector === 'Entregue') {
+        setMoveDisabled(true);
+      }
     });
 
     api.get(`users/byid?id=${routeParams.userID}`).then(response => {
       const user = response.data;
-      setUser(user);
+      setUserOrder(user);
     });
-  }, [routeParams.orderID, routeParams.userID]);
+  }, [routeParams.orderID, routeParams.userID, user.id]);
+
+  const navigationBackModalDelete = useCallback(() => {
+    setTimeout(() => {
+      navigation.goBack();
+    }, 2000);
+  }, [navigation]);
+
+  const handleDelete = useCallback(() => {
+    return Alert.alert('Deletar', 'Deseja realmente deletar o pedido?', [
+      {
+        text: 'Sim',
+        onPress: async () => {
+          try {
+            await api
+              .delete('orders', {
+                data: {
+                  id: order.id,
+                  client: order.client,
+                  modelName: order.modelName,
+                  sector: order.sector,
+                },
+              })
+              .then(
+                response => {
+                  console.log(response.data);
+                  setShowModalDelete(true);
+                  navigationBackModalDelete();
+                },
+                error => {
+                  console.log(error.response.data);
+                  Alert.alert(
+                    'Erro na deleção de pedido',
+                    `Ocorreu um erro ao realizar a adição do pedido: ${error.response.data}`,
+                  );
+                },
+              );
+          } catch (err) {
+            console.log(err);
+            Alert.alert(
+              'Erro na deleção de pedido',
+              `Ocorreu um erro ao realizar a adição do pedido: ${err}`,
+            );
+          }
+        },
+        style: 'default',
+      },
+      {
+        text: 'Não',
+        style: 'cancel',
+      },
+    ]);
+  }, [
+    navigationBackModalDelete,
+    order.client,
+    order.id,
+    order.modelName,
+    order.sector,
+  ]);
 
   return (
     <>
+      <ModalDelete visible={showModalDelete} />
       <Header />
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -107,7 +192,7 @@ const ListOne: React.FC = () => {
               </OrderContainerInfo>
               <OrderContainerInfo>
                 <OrderText>Criado por: </OrderText>
-                <OrderTextContent>{user.name}</OrderTextContent>
+                <OrderTextContent>{userOrder.name}</OrderTextContent>
               </OrderContainerInfo>
               <OrderDivisor />
               <OrderContainerInfo>
@@ -191,17 +276,32 @@ const ListOne: React.FC = () => {
               </OrderContainerInfo>
               <OrderDivisor />
               <ButtonsContainer>
-                <ButtonDeleteOrder>
-                  <Icon name="trash" size={28} color="#4f4841" />
-                  <IconText>Deletar</IconText>
+                <ButtonDeleteOrder
+                  disabled={deleteDisabled}
+                  onPress={handleDelete}
+                >
+                  <Icon
+                    name="trash"
+                    size={28}
+                    color={deleteDisabled ? '#c0c0c0' : '#4f4841'}
+                  />
+                  <IconText disabled={deleteDisabled}>Deletar</IconText>
                 </ButtonDeleteOrder>
-                <ButtonChangeOrder>
-                  <Icon name="edit" size={28} color="#4f4841" />
-                  <IconText>Editar</IconText>
+                <ButtonChangeOrder disabled={editDisabled}>
+                  <Icon
+                    name="edit"
+                    size={28}
+                    color={editDisabled ? '#c0c0c0' : '#4f4841'}
+                  />
+                  <IconText disabled={editDisabled}>Editar</IconText>
                 </ButtonChangeOrder>
-                <ButtonMoveOrder>
-                  <Icon name="forward" size={28} color="#4f4841" />
-                  <IconText>Mover</IconText>
+                <ButtonMoveOrder disabled={editDisabled}>
+                  <Icon
+                    name="forward"
+                    size={28}
+                    color={moveDisabled ? '#c0c0c0' : '#4f4841'}
+                  />
+                  <IconText disabled={editDisabled}>Mover</IconText>
                 </ButtonMoveOrder>
               </ButtonsContainer>
             </OrderContainer>
